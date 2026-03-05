@@ -1,1 +1,8 @@
-{}
+{
+  "timestamp": "2026-03-05T21:24:29.702Z",
+  "newsIncidents": {},
+  "aqiStates": 0,
+  "errors": [
+    "NEWSAPI_KEY not set, news fetch skipped"
+  ]
+}
