@@ -13,6 +13,7 @@ import {
   Flame,
   ShieldAlert,
   Siren,
+  RefreshCw,
 } from "lucide-react";
 import { TabId, CategoryData } from "@/types/categories";
 import { politicians, nationalStats } from "@/data/politicians";
@@ -240,6 +241,33 @@ const statColorMap: Record<string, string> = {
   yellow: "yellow",
 };
 
+function LastUpdatedBadge({ timestamp }: { timestamp?: string }) {
+  if (!timestamp) return null;
+
+  const date = new Date(timestamp);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  let timeAgo: string;
+  if (diffHours < 1) timeAgo = "just now";
+  else if (diffHours < 24) timeAgo = `${diffHours}h ago`;
+  else if (diffDays === 1) timeAgo = "yesterday";
+  else timeAgo = `${diffDays} days ago`;
+
+  return (
+    <div className="flex items-center justify-center gap-2 py-3">
+      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+        <RefreshCw className="w-3 h-3 text-green-400" />
+        <span className="text-xs text-green-400 font-medium">
+          Auto-updated {timeAgo}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function CategoryContent({ data }: { data: CategoryData }) {
   const color = data.tab.color;
   const stats = data.nationalStats;
@@ -247,6 +275,9 @@ function CategoryContent({ data }: { data: CategoryData }) {
 
   return (
     <>
+      {/* Last Updated Badge */}
+      <LastUpdatedBadge timestamp={data.lastUpdated} />
+
       {/* Stats Summary */}
       <section className="py-16 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">

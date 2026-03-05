@@ -21,6 +21,7 @@ export interface Incident {
   source: string;
   sourceUrl: string;
   tags: string[];
+  autoSource?: string; // "newsapi" | "openaq" — present if auto-fetched
 }
 
 export interface StateMetric {
@@ -36,4 +37,5 @@ export interface CategoryData {
   incidents: Incident[];
   stateMetrics: StateMetric[];
   nationalStats: Record<string, number | string>;
+  lastUpdated?: string; // ISO timestamp of last auto-update
 }
